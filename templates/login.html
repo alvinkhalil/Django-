@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+{% load crispy_forms_tags %}
+
+<form method="post" class="uniForm">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3>Loqin:</h3>
+    <hr>
+            <form method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                
+                <button class = "btn btn-danger"type ="submit">Daxil ol</button>
+            </form>
+        </div>
+      </div>
+</form>
+
+
+
+{% endblock body %}
+

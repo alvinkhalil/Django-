@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block body %}
+  <!-- Page content-->
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-2">Yazıçı: {{article.author.username}}</div>
+                </header>
+                <hr>
+                <!-- Preview image figure-->
+                {% if article.article_photo %}
+                    <img src="{{article.article_photo.url}}">
+      
+                {% endif %}
+                
+            
+                <!-- Post content-->
+                <p>Tarix: {{article.created_date}}</p>
+                <hr>
+                <div>{{article.content|safe}}</div>
+                
+                <hr>
+                <h4>Rəylər</h4>
+                <hr>
+            {% if comments %}
+
+                {% for comment in comments %}
+
+                <div>
+                    <div class="card">
+                        <div class="cadfd-body textd-center">
+                    
+                        </div>
+                        <div class="comment-widgets">
+                            <!-- Comment Row -->
+                            <div class="d-flex flex-row comment-row m-t-0">
+                                <div class="p-2"><img src="https://openclipart.org/image/800px/4749" alt="user" width="50" class="rounded-circle"></div>
+                                <div class="comment-text w-100">
+                                    <h5 class="font-medium">{{comment.comment_author}}</h5><span class="m-b-15 d-block">{{comment.comment_content}}</span>
+                                    <div class="comment-footer"> <span class="text-muted float-right">{{comment.comment_date}}</span></div><br>
+                                </div>
+                            </div> <!-- Card -->
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            
+            {% else %}
+              <div class="alert alert-danger">Bu məqalədə heç bir rəy yoxdur. İlki siz edə bilərsiniz :)</div>
+            {% endif %}
+            
+            
+            </article>
+            <div class="card my-4">
+                <h5 class = "card-header">Rəy Bildir</h5>
+                <div class = "card-body">
+
+                    <form method="POST" action="{% url 'articles:comment' article.id %}"  >
+                        {% csrf_token %}
+                        <form">
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">Ad</label>
+                              <input name="comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="Adınızı daxil edin...">
+                            </div>
+                          </form>
+
+                        <div class = "form-group">
+                            <label for="formGroupExampleInput">Rəy</label>
+                            
+                            <textarea name="comment_content" class = "form-control" rows="3" placeholder="Rəyi daxil edin..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Əlavə et</button>
+                    </form>
+                </div>
+    
+        </div>
+        </div>
+    </div>
+  
+{% endblock body %}

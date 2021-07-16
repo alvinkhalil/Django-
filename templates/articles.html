@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block body %}
+<h3>Məqalələr</h3>
+<hr>
+<!-- Search form -->
+<form >
+   {% csrf_token %}
+  <input type="text" name = "keyword" maxlength="64" placeholder="Axtar..">
+  <button type="submit" class="btn btn-danger">Axtar</button>
+</form>
+{% if articles %}
+  {% for article in articles  %}
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+        
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-2">Yazıçı: {{article.author.username}}</div>
+                </header>
+                <hr>
+                <!-- Preview image figure-->
+                {% if article.article_photo %}
+                    <img src="{{article.article_photo.url}}" class="img-responsive">
+      
+                {% endif %}
+                
+            
+                <!-- Post content-->
+                <p>Tarix: {{article.created_date}}</p>
+                <hr>
+                <div>{{article.content|safe|truncatewords:100}}</div>
+                <a href="/articles/article/{{article.id}}" style="float: right;" class="btn btn-danger">Davamını oxu</a>
+                
+                
+            </article>
+    
+        </div>
+        </div>
+    </div>
+
+
+  {% endfor %}
+{% else %}
+  <div class = "alert alert-danger">Bu bloqda heç bir məqalə yoxdur.</div>
+{% endif %}
+
+
+
+{% endblock body %}
